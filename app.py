@@ -1,6 +1,29 @@
 from flask import Flask, jsonify, request
 import json
-import pyodbc
 import pandas.io.sql as pdsql
-from makeDB import create_table
-import sqlite3
+import pyodbc
+
+
+app = Flask(__name__)
+
+@app.route('/wifi', methods=['POST'])
+def method_name():
+    if request.method == 'POST':
+        pass
+   pass
+
+@app.route('/wifi', methods=['POST'])
+def method_name():
+    if request.method == 'POST':
+        pass
+   pass
+   
+@app.route('/wifi', methods=['POST'])
+def method_name():
+    if request.method == 'POST':
+        pass
+   pass
+
+if __name__ == '__main__':
+    app.run()
+    
