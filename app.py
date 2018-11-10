@@ -20,7 +20,7 @@ def get_points():
         distance = request.args.get('distance')
    pass
 
-@app.route('/wifi/updatePoint', methods=['POST'])
+@app.route('/wifi/updatePoints', methods=['POST'])
 def update_points():
     if request.method == 'POST':
         req = request.get_json()
