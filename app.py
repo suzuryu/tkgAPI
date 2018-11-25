@@ -12,10 +12,10 @@ table_name = 'tkg'
 def add_points():
     if request.method == 'POST':
         req = request.get_json()
-        if check_data_type(req) == 'error':
-            return {'error': 'data type is wrong'}
 
         for r in req:
+            if check_data_type(r) == 'error':
+                return {'error': 'data type is wrong'}
             if sql_add_query(r)['sql_status'] == 'error':
                 return {500: 'sql error'}
 
@@ -25,10 +25,9 @@ def add_points():
 def update_points():
     if request.method == 'POST':
         req = request.get_json()
-        if check_data_type(req) == 'error':
-            return {'error': 'data type is wrong'}
-
         for r in req:
+            if check_data_type(r) == 'error':
+                return {'error': 'data type is wrong'}
             if sql_update_query(r)['sql_status'] == 'error':
                 return {500: 'sql error'}
 
