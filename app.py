@@ -6,13 +6,13 @@ import pyodbc
 
 app = Flask(__name__)
 
-table_name = 'tkg'
+TABLE_NAME = 'tkg'
+DB_NAME = 'serverSide.db'
 
 @app.route('/wifi/addPoints', methods=['POST'])
 def add_points():
     if request.method == 'POST':
         req = request.get_json()
-
         for r in req:
             if check_data_type(r) == 'error':
                 return {'error': 'data type is wrong'}
@@ -20,6 +20,7 @@ def add_points():
                 return {500: 'sql error'}
 
         return {200: 'success!'}
+
 
 @app.route('/wifi/updatePoints', methods=['POST'])
 def update_points():
@@ -62,7 +63,7 @@ def check_data_type(data):
 
 
 def sql_add_query(point):
-    sql_query = "INSERT INTO " + table_name + "(name, ssid, address, postCode, hpUrl, latitude, longitude)  \
+    sql_query = "INSERT INTO " + TABLE_NAME + "(name, ssid, address, postCode, hpUrl, latitude, longitude)  \
                     VALUES(?, ?, ?, ?, ?, ?, ?)"
     values = (point['name'], point['ssid'], point['address'], point['postCode'],  \
                         point['hpUrl'], point['latitude'], point['longitude'])
@@ -71,23 +72,23 @@ def sql_add_query(point):
 
 
 def sql_get_query():
-    sql_query = "SELECT * FROM " + table_name
+    sql_query = "SELECT * FROM " + TABLE_NAME
 
     return execute_sql(sql_query)
 
 # where ??
 def sql_update_query(point):
-    sql_query = "UPDATE " + table_name
+    sql_query = "UPDATE " + TABLE_NAME
                  + " SET name = ?, ssid = ?, address = ?, postCode = ?, hpUrl = ?, latitude = ?, longitude = ?"
-                 + " WHERE "
+                 + " WHERE id == ?"
     values = (point['name'], point['ssid'], point['address'], point['postCode'],  \
-                    point['hpUrl'], point['latitude'], point['longitude'])
+                    point['hpUrl'], point['latitude'], point['longitude'], point['id'])
 
     return execute_sql(sql_query, values)
 
 
 def execute_sql(sql_query, values=()):
-    con = pyodbc.connect(r'DRIVER={SQLite3 ODBC Driver};SERVER=localhost;DATABASE=      .db;Trusted_connection=yes')
+    con = pyodbc.connect(r'DRIVER={SQLite3 ODBC Driver};SERVER=localhost;DATABASE='+ DB_NAME + ';Trusted_connection=yes')
     cur = con.cursor()
     try:
         if len(values) != 0:
