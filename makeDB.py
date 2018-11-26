@@ -7,10 +7,10 @@ def create_table():
     with closing(sqlite3.connect(DB_NAME)) as conn:
         c = conn.cursor()
 
-        # load spatiate
+        # load spatiaLite
         c.execute("SELECT load_extension('PATH TO mod_spatialite.so');")
 
-        # init spatiate
+        # init spatiaLite
         c.execute('SELECT InitSpatialMetaData();')
 
         create_table = '''CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY AUTOINCREMENT,
