@@ -14,8 +14,6 @@ def add_points():
     if request.method == 'POST':
         req = request.get_json()
         for r in req:
-            if check_data_type(r) == 'error':
-                return {'error': 'data type is wrong'}
             if sql_add_query(r)['sql_status'] == 'error':
                 return {500: 'sql error'}
 
@@ -27,8 +25,8 @@ def update_points():
     if request.method == 'POST':
         req = request.get_json()
         for r in req:
-            if check_data_type(r) == 'error':
-                return {'error': 'data type is wrong'}
+            if r['id'] is None:
+                return {'error': 'data has no id'}
             if sql_update_query(r)['sql_status'] == 'error':
                 return {500: 'sql error'}
 
@@ -39,27 +37,6 @@ def update_points():
 def get_points():
     if request.method == 'GET':
         return {'datas': sql_get_query(), 200:'success!'}
-
-
-def check_data_type(data):
-    if type(data['id']) != int:
-        return 'error'
-    if type(data['name']) != str:
-        return 'error'
-    if type(data['ssid']) != str:
-        return 'error'
-    if type(data['address']) != str:
-        return 'error'
-    if type(data['postCode']) != int:
-        return 'error'
-    if type(data['hpUrl']) != str:
-        return 'error'
-    if type(data['latitude']) != float:
-        return 'error'
-    if type(data['longitude']) != float:
-        return 'error'
-
-    return 'ok'
 
 
 def sql_add_query(point):
