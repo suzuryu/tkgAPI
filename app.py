@@ -36,8 +36,20 @@ def update_points():
 @app.route('/wifi/getPoints', methods=['GET'])
 def get_points():
     if request.method == 'GET':
-        return {'datas': sql_get_query(), 200:'success!'}
+        name_keyword = request.args.get('name')
+        id = request.args.get('id')
+        latitude = request.args.get('latitude')
+        longitude = request.args.get('longitude')
+        distance = request.args.get('distance')
 
+        if name_keyword is not None:
+            return {'datas': sql_get_by_name_query(name), 200: 'success!'}
+        elif id is not None:
+            return {'datas': sql_get_by_id_query(id), 200: 'success!'}
+        elif latitude is not None and longitude is not None and distance is not None:
+            return {'datas': sql_get_by_distance_query(latitude, longitude, distance), 200: 'success!'}
+        else:
+            return {400: 'wrong get params'}
 
 def sql_add_query(point):
     sql_query = "INSERT INTO " + TABLE_NAME + "(name, ssid, address, postCode, hpUrl, geoPoint)  \
@@ -48,14 +60,25 @@ def sql_add_query(point):
     return execute_sql(sql_query, values)
 
 
-def sql_get_query(latitude, longitude, distance):
+def sql_get_by_distance_query(latitude, longitude, distance):
     sql_query = "SELECT id, name, ssid, address, postCode, hpUrl, X(geoPoint), Y(geoPoint) FROM " + TABLE_NAME
                 + "WHERE MBRIntersects(GeomFromText('LineString({x0} {y0}, {x1} {y2})'), geo)".format(
                         longitude - distance, latitude - distance, longitude + distance, latitude + distance)
 
     return execute_sql(sql_query)
 
-# where ??
+def sql_get_by_name_query(name):
+    sql_query = "SELECT id, name, ssid, address, postCode, hpUrl, X(geoPoint), Y(geoPoint) FROM " + TABLE_NAME
+                + "WHERE name LIKE '{0}%'".format(name)
+
+    return execute_sql(sql_query)
+
+def sql_get_by_id_query(id):
+    sql_query = "SELECT id, name, ssid, address, postCode, hpUrl, X(geoPoint), Y(geoPoint) FROM " + TABLE_NAME
+                    + "WHERE id == {0}".format(id)
+
+    return execute_sql(sql_query)
+
 def sql_update_query(point):
     sql_query = "UPDATE " + TABLE_NAME
                  + " SET name = ?, ssid = ?, address = ?, postCode = ?, hpUrl = ?, geoPoint = GeomFormText('POINT(? ?)')"
