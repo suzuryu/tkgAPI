@@ -40,26 +40,28 @@ def get_points():
 
 
 def sql_add_query(point):
-    sql_query = "INSERT INTO " + TABLE_NAME + "(name, ssid, address, postCode, hpUrl, latitude, longitude)  \
-                    VALUES(?, ?, ?, ?, ?, ?, ?)"
+    sql_query = "INSERT INTO " + TABLE_NAME + "(name, ssid, address, postCode, hpUrl, geoPoint)  \
+                    VALUES(?, ?, ?, ?, ?, GeomFromText('POINT(? ?)'))"
     values = (point['name'], point['ssid'], point['address'], point['postCode'],  \
-                        point['hpUrl'], point['latitude'], point['longitude'])
+                        point['hpUrl'], point['longitude'], point['latitude'])
 
     return execute_sql(sql_query, values)
 
 
-def sql_get_query():
-    sql_query = "SELECT * FROM " + TABLE_NAME
+def sql_get_query(latitude, longitude, distance):
+    sql_query = "SELECT id, name, ssid, address, postCode, hpUrl, X(geoPoint), Y(geoPoint) FROM " + TABLE_NAME
+                + "WHERE MBRIntersects(GeomFromText('LineString({x0} {y0}, {x1} {y2})'), geo)".format(
+                        longitude - distance, latitude - distance, longitude + distance, latitude + distance)
 
     return execute_sql(sql_query)
 
 # where ??
 def sql_update_query(point):
     sql_query = "UPDATE " + TABLE_NAME
-                 + " SET name = ?, ssid = ?, address = ?, postCode = ?, hpUrl = ?, latitude = ?, longitude = ?"
+                 + " SET name = ?, ssid = ?, address = ?, postCode = ?, hpUrl = ?, geoPoint = GeomFormText('POINT(? ?)')"
                  + " WHERE id == ?"
     values = (point['name'], point['ssid'], point['address'], point['postCode'],  \
-                    point['hpUrl'], point['latitude'], point['longitude'], point['id'])
+                    point['hpUrl'], point['longitude'], point['latitude'], point['id'])
 
     return execute_sql(sql_query, values)
 
