@@ -1,0 +1,13 @@
+sudo apt-get -yV --force-yes install libsqlite3-0-dbg
+sudo apt-get -yV --force-yes install libsqlite3-0
+sudo apt-get -yV --force-yes install libsqlite0-dev
+sudo apt-get -yV --force-yes install libsqlite3-dev
+sudo apt-get -yV --force-yes install libsqlite3-tcl
+sudo apt-get -yV --force-yes install sqlite3-doc
+sudo apt-get -yV --force-yes install sqlite3
+sudo apt-get -yV --force-yes install spatialite-bin
+sudo apt-get -yV --force-yes install libspatialite-dev
+sudo apt-get -yV --force-yes install spatialite-gui
+sudo apt-get -yV --force-yes install sqliteman
+sudo apt-get -yV --force-yes install sqliteman-doc
+sudo apt-get -yV --force-yes install sqlitebrowser
