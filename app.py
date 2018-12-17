@@ -2,11 +2,11 @@ from flask import Flask, jsonify, request
 import json
 import pandas.io.sql as pdsql
 import pyodbc
-
+from makeDB import create_table
 
 app = Flask(__name__)
 
-TABLE_NAME = 'tkg'
+TABLE_NAME = 'wifi'
 DB_NAME = 'serverSide.db'
 
 @app.route('/wifi/addPoints', methods=['POST'])
@@ -107,4 +107,6 @@ def execute_sql(sql_query, values=()):
 
 
 if __name__ == '__main__':
+    create_table()
     app.run(debug=True)
+
