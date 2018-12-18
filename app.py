@@ -7,7 +7,7 @@ from makeDB import create_table
 app = Flask(__name__)
 
 TABLE_NAME = 'wifi'
-DB_NAME = 'serverSide.db'
+DB_NAME = 'wifiInformations.db'
 
 @app.route('/wifi/addPoints', methods=['POST'])
 def add_points():
