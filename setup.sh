@@ -4,7 +4,7 @@ sudo apt update
 sudo apt upgrade
 
 sudo apt-get install libsqlite3-mod-spatialite 
-apt install unixodbc-dev
+sudo apt install unixodbc-dev
 sudo apt install libproj-dev
 
 mkdir download_files & cd download_files
