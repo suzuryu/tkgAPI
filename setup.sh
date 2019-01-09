@@ -20,7 +20,6 @@ sudo make check
 sudo make install
 
 cd ../
-
 wget http://www.gaia-gis.it/gaia-sins/libspatialite-4.3.0a.zip
 unzip libspatialite-4.3.0a.zip
 cd libspatialite-4.3.0a
@@ -28,6 +27,7 @@ cd libspatialite-4.3.0a
 sudo make
 sudo make install
 
+cd ../../
 sudo rm /etc/nginx/sites-enabled/default.conf
 sudo cp -f uwsgi.conf /etc/nginx/sites-enabled/
 uwsgi --ini uwsgi.ini
