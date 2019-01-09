@@ -29,5 +29,5 @@ sudo make
 sudo make install
 
 sudo rm /etc/nginx/sites-enabled/default.conf
-sudo \cp -f uwsgi.conf /etc/nginx/sites-enabled/
+sudo cp -f uwsgi.conf /etc/nginx/sites-enabled/
 uwsgi --ini uwsgi.ini
