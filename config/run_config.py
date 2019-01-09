@@ -1,0 +1,7 @@
+API_DEBUG = False
+API_HOST = '0.0.0.0'
+API_PORT = 80
+
+APP_DEBUG = False
+APP_TESTING = False
+

@@ -1,4 +1,6 @@
 pyodbc == 4.0.24
 pandas == 0.23.4
 Flask == 1.0.2
-
+Flask-API==1.1b2
+Werkzeug==0.14.1
+uwsgi
