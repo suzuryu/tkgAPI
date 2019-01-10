@@ -1,5 +1,6 @@
 #!/bin/sh
-mk dir $HOME/prefix
+sudo su
+mkdir /var/www/prefix
 sudo apt update -y
 sudo apt upgrade -y
 
@@ -23,7 +24,7 @@ cd ../
 wget http://www.gaia-gis.it/gaia-sins/libspatialite-4.3.0a.zip
 unzip libspatialite-4.3.0a.zip
 cd libspatialite-4.3.0a
-./configure --enable-freexl=no --prefix=$HOME/prefix
+./configure --enable-freexl=no --prefix=/var/www/prefix
 sudo make
 sudo make install
 
