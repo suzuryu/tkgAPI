@@ -2,7 +2,7 @@
 
 from flask import current_app, Flask, redirect, abort, jsonify, make_response
 from config.run_config import APP_DEBUG, APP_TESTING
-from api.crud import api
+from crud import api
 
 
 def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
@@ -18,12 +18,12 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
     app.debug = debug
     app.testing = testing
     app.config['JSON_AS_ASCII'] = False
-    
+
     if config_overrides:
         app.config.update(config_overrides)
-    
+
     app.register_blueprint(api)
-    
+
     @app.route('/api/health')
     def health_check():
         """
@@ -34,9 +34,9 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
             'status_code': 200,
             'status_msg': 'health is ok',
         }
-        
+
         return make_response(jsonify(response)), 200
-    
+
     @app.route('/')
     @app.route('/api')
     def index():
@@ -44,7 +44,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
         :return:
         """
-        
+
         return redirect('/api/health')
 
     #\@app.errorhandler(204)  # 文章が意味をなしておらず、判定しなかった
@@ -64,12 +64,12 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         :param e:
         :return:
         """
-        
+
         response = {
             'status_code': int(e.code),
             'status_msg': str(e)
         }
-        
+
         return make_response(jsonify(response)), e.code
-    
+
     return app
