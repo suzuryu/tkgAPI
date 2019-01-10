@@ -9,7 +9,7 @@ def create_table():
         conn.enable_load_extension(True)
         c = conn.cursor()
         # load spatiaLite
-        c.execute("SELECT load_extension('var/www/prefix/lib/mod_spatialite.so');")
+        c.execute("SELECT load_extension('/var/www/prefix/lib/mod_spatialite.so');")
 
         print("load spatiaLite")
         # init spatiaLite
