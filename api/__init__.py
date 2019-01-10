@@ -2,7 +2,7 @@
 
 from flask import current_app, Flask, redirect, abort, jsonify, make_response
 from config.run_config import APP_DEBUG, APP_TESTING
-from crud import api
+from api.crud import api
 
 
 def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):

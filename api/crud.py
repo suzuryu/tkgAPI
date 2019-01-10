@@ -7,7 +7,7 @@ import pyodbc
 api = Blueprint('api', __name__, url_prefix="/api")#親URLを設定
 
 
-@app.route('/wifi/addPoints', methods=['POST'])
+@api.route('/wifi/addPoints', methods=['POST'])
 def add_points():
     if request.method == 'POST':
         req = request.get_json()
@@ -18,7 +18,7 @@ def add_points():
         return {200: 'success!'}
 
 
-@app.route('/wifi/updatePoints', methods=['POST'])
+@api.route('/wifi/updatePoints', methods=['POST'])
 def update_points():
     if request.method == 'POST':
         req = request.get_json()
@@ -31,7 +31,7 @@ def update_points():
         return {200: 'success!'}
 
 
-@app.route('/wifi/getPoints', methods=['GET'])
+@api.route('/wifi/getPoints', methods=['GET'])
 def get_points():
     if request.method == 'GET':
         name_keyword = request.args.get('name')
