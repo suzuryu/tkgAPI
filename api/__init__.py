@@ -3,6 +3,9 @@
 from flask import current_app, Flask, redirect, abort, jsonify, make_response
 from config.run_config import APP_DEBUG, APP_TESTING
 
+TABLE_NAME = 'wifi'
+DB_NAME = 'wifiInformations.db'
+
 def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
     """
 
@@ -164,5 +167,5 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
                 return data
         except sqlite3.Error as e:
             return {'sql_status': 'error'}
-            
+
     return app

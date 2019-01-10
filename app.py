@@ -10,9 +10,6 @@ from config.run_config import API_HOST, API_DEBUG, API_PORT
 
 app = api.create_app()
 
-TABLE_NAME = 'wifi'
-DB_NAME = 'wifiInformations.db'
-
 if __name__ == '__main__':
     create_table()
     app.run(debug=API_DEBUG, host=API_HOST, port=API_PORT)
