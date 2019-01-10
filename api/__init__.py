@@ -68,6 +68,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
         return make_response(jsonify(response)), e.code
 
+#main api
     @app.route('/wifi/addPoints', methods=['POST'])
     def add_points():
         if request.method == 'POST':
@@ -163,6 +164,5 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
                 return data
         except sqlite3.Error as e:
             return {'sql_status': 'error'}
-
-
+            
     return app
