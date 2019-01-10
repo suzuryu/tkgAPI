@@ -1,5 +1,4 @@
 #!/bin/sh
-sudo su
 mkdir /var/www/prefix
 sudo apt update -y
 sudo apt upgrade -y
