@@ -1,5 +1,5 @@
 #!/bin/sh
-mkdir /var/www/prefix
+mkdir -p /var/www/prefix
 sudo apt update -y
 sudo apt upgrade -y
 
@@ -7,7 +7,7 @@ sudo apt-get install -y libsqlite3-mod-spatialite python3 python-dev python3-ven
 sudo apt install unixodbc-dev
 sudo apt install libproj-dev
 
-sudo pip3 install -r requirement.txt
+sudo pip3 install -r requirements.txt
 
 mkdir download_files & cd download_files
 

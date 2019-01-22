@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import current_app, Flask, redirect, abort, jsonify, make_response
+from flask import current_app, Flask, redirect, abort, jsonify, make_response, request
 from config.run_config import APP_DEBUG, APP_TESTING
 
 TABLE_NAME = 'wifi'
