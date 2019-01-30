@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import current_app, Flask, redirect, abort, jsonify, make_response, request
+import pyodbc
 from config.run_config import APP_DEBUG, APP_TESTING
 
 TABLE_NAME = 'wifi'
@@ -74,71 +75,79 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 #main api
     @app.route('/api/wifi/addPoints', methods=['POST'])
     def add_points():
-        if request.method == 'POST':
-            req = request.get_json()
-            for r in req:
-                if sql_add_query(r)['sql_status'] == 'error':
-                    abort(500)
+        try:
+            if request.method == 'POST':
+                req = request.get_json()
+                for r in req:
+                    if sql_add_query(r)['sql_status'] == 'error':
+                        abort(500)
 
-            response = {
-                'status_code': 200,
-                'status_msg': 'success',
-            }
+                response = {
+                    'status_code': 200,
+                    'status_msg': 'success',
+                }
 
-            return make_response(jsonify(response)), 200
+                return make_response(jsonify(response)), 200
+        except:
+            abort(500)
 
 
 
     @app.route('/api/wifi/updatePoints', methods=['POST'])
     def update_points():
-        if request.method == 'POST':
-            req = request.get_json()
-            for r in req:
-                if r['id'] is None:
-                    abort(400)
-                if sql_update_query(r)['sql_status'] == 'error':
-                    abort(500)
+        try:
+            if request.method == 'POST':
+                req = request.get_json()
+                for r in req:
+                    if r['id'] is None:
+                        abort(400)
+                    if sql_update_query(r)['sql_status'] == 'error':
+                        abort(500)
 
-            response = {
-                'status_code': 200,
-                'status_msg': 'success',
-            }
+                response = {
+                    'status_code': 200,
+                    'status_msg': 'success',
+                }
 
-            return make_response(jsonify(response)), 200
-
+                return make_response(jsonify(response)), 200
+        except:
+            abort(500)
 
     @app.route('/api/wifi/getPoints', methods=['GET'])
     def get_points():
-        if request.method == 'GET':
-            name_keyword = request.args.get('name')
-            id = request.args.get('id')
-            latitude = request.args.get('latitude')
-            longitude = request.args.get('longitude')
-            distance = request.args.get('distance')
+        try:
+            if request.method == 'GET':
+                name_keyword = request.args.get('name')
+                id = request.args.get('id')
+                latitude = request.args.get('latitude')
+                longitude = request.args.get('longitude')
+                distance = request.args.get('distance')
 
-            if name_keyword is not None:
-                response = {
-                    'datas': sql_get_by_name_query(name),
-                    'status_code': 200,
-                    'status_msg': 'success',
-                }
-                return make_response(jsonify(response)), 200
-            elif id is not None:
-                response = {
-                    'datas': sql_get_by_id_query(id),
-                    'status_code': 200,
-                    'status_msg': 'success',
-                }
-                return make_response(jsonify(response)), 200
-            elif latitude is not None and longitude is not None and distance is not None:
-                response = {
-                    'datas': sql_get_by_distance_query(latitude, longitude, distance),
-                    'status_code': 200,
-                    'status_msg': 'success',
-                }
-                return make_response(jsonify(response)), 200
-            else:
-                abort(400)
+                if name_keyword is not None:
+                    response = {
+                        'datas': sql_get_by_name_query(name),
+                        'status_code': 200,
+                        'status_msg': 'success',
+                    }
+                    return make_response(jsonify(response)), 200
+                elif id is not None:
+                    response = {
+                        'datas': sql_get_by_id_query(id),
+                        'status_code': 200,
+                        'status_msg': 'success',
+                    }
+                    return make_response(jsonify(response)), 200
+                elif latitude is not None and longitude is not None and distance is not None:
+                    response = {
+                        'datas': sql_get_by_distance_query(latitude, longitude, distance),
+                        'status_code': 200,
+                        'status_msg': 'success',
+                    }
+                    return make_response(jsonify(response)), 200
+                else:
+                    abort(400)
+        except:
+            abort(500)
 
     def sql_add_query(point):
         sql_query = "INSERT INTO " + TABLE_NAME + "(name, ssid, address, postCode, hpUrl, geoPoint)  \
