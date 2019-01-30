@@ -197,7 +197,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
                 con.close()
                 return {'sql_status': 'ok'}
             else:
-                data = pandas.read_sql(sql_query, con).to_dict('records')
+                data = pdsql.read_sql(sql_query, con).to_dict('records')
                 con.close()
                 return data
         except sqlite3.Error as e:
