@@ -7,6 +7,7 @@ from config.run_config import APP_DEBUG, APP_TESTING
 TABLE_NAME = 'wifi'
 DB_NAME = 'wifiInformations.db'
 
+
 def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
     """
 
