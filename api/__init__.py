@@ -116,7 +116,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
             longitude = request.args.get('longitude')
             distance = request.args.get('distance')
 
-            if name_keyword is not None
+            if name_keyword is not None:
                 response = {
                     'datas': sql_get_by_name_query(name),
                     'status_code': 200,
