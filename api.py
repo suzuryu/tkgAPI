@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from flask import current_app, Flask, redirect, abort, jsonify, make_response, request
-import pyodbc
-import sqlite3
+import sqlite3, pdsql, pyodbc
 from config.run_config import APP_DEBUG, APP_TESTING
 
 TABLE_NAME = 'wifi'
