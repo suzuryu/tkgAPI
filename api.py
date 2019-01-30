@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from flask import current_app, Flask, redirect, abort, jsonify, make_response, request
-import sqlite3, pdsql, pyodbc
+import pandas.io.sql as pdsql
+import sqlite3, pyodbc, json
 from config.run_config import APP_DEBUG, APP_TESTING
+
 
 TABLE_NAME = 'wifi'
 DB_NAME = 'wifiInformations.db'

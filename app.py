@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 from api import create_app
 from flask import Flask, jsonify, request
-import json
-import pandas.io.sql as pdsql
-import pyodbc
 from makeDB import create_table
 from config.run_config import API_HOST, API_DEBUG, API_PORT
 
