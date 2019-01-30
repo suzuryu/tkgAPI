@@ -72,7 +72,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         return make_response(jsonify(response)), e.code
 
 #main api
-    @app.route('/wifi/addPoints', methods=['POST'])
+    @app.route('/api/wifi/addPoints', methods=['POST'])
     def add_points():
         if request.method == 'POST':
             req = request.get_json()
@@ -89,7 +89,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
 
 
-    @app.route('/wifi/updatePoints', methods=['POST'])
+    @app.route('/api/wifi/updatePoints', methods=['POST'])
     def update_points():
         if request.method == 'POST':
             req = request.get_json()
@@ -107,7 +107,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
             return make_response(jsonify(response)), 200
 
 
-    @app.route('/wifi/getPoints', methods=['GET'])
+    @app.route('/api/wifi/getPoints', methods=['GET'])
     def get_points():
         if request.method == 'GET':
             name_keyword = request.args.get('name')
