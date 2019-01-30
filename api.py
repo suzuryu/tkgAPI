@@ -5,7 +5,7 @@ import pyodbc
 from config.run_config import APP_DEBUG, APP_TESTING
 
 TABLE_NAME = 'wifi'
-DB_NAME = 'wifiInformations.db'
+DB_NAME = 'wifiInformations'
 
 
 def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
@@ -186,8 +186,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
 
     def execute_sql(sql_query, values=()):
-        #con = pyodbc.connect(r'DRIVER={SQLite3 ODBC Driver};SERVER=localhost;DATABASE='+ DB_NAME + ';Trusted_connection=yes')
-        con = pyodbc.connect(r"DRIVER={SQLite3 ODBC Driver};SERVER=localhost;DATABASE=wifiInformations.db;Trusted_connection=yes")
+        con = pyodbc.connect(r'DRIVER={SQLite3 ODBC Driver};SERVER=localhost;DATABASE='+ DB_NAME + ';Trusted_connection=yes')
         cur = con.cursor()
         try:
             if len(values) != 0:
