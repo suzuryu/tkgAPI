@@ -2,6 +2,7 @@
 
 from flask import current_app, Flask, redirect, abort, jsonify, make_response, request
 import pyodbc
+import sqlite3
 from config.run_config import APP_DEBUG, APP_TESTING
 
 TABLE_NAME = 'wifi'
