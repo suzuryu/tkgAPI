@@ -6,6 +6,7 @@ import pandas.io.sql as pdsql
 import pyodbc
 from makeDB import create_table
 from config.run_config import API_HOST, API_DEBUG, API_PORT
+from . import create_app
 
 app = create_app()
 
