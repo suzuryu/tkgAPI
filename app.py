@@ -4,11 +4,10 @@ from flask import Flask, jsonify, request
 import json
 import pandas.io.sql as pdsql
 import pyodbc
-import api
 from makeDB import create_table
 from config.run_config import API_HOST, API_DEBUG, API_PORT
 
-app = api.create_app()
+app = create_app()
 
 if __name__ == '__main__':
     create_table()
