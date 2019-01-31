@@ -28,6 +28,6 @@ sudo make
 sudo make install
 
 cd ../../
-sudo rm /etc/nginx/sites-enabled/default.conf
-sudo cp -f uwsgi.conf /etc/nginx/sites-enabled/
-uwsgi --ini uwsgi.ini
+# sudo rm /etc/nginx/sites-enabled/default.conf
+# sudo cp -f uwsgi.conf /etc/nginx/sites-enabled/
+# uwsgi --ini uwsgi.ini
