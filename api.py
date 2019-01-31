@@ -86,8 +86,8 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
             logp("Start add points for {} count".format(len(req)))
             points = []
             for point in tqdm(req):
-                points.append(point['name'], point['ssid'], point['address'], point['postCode'],point['hpUrl'],
-                              'POINT({} {})'.format(point['longitude'], point['latitude']))
+                points.append([point['name'], point['ssid'], point['address'], point['postCode'],point['hpUrl'],
+                              'POINT({} {})'.format(point['longitude'], point['latitude'])])
             if sql_add_query(points)['sql_status'] == 'error':
                 abort(500)
 
@@ -110,8 +110,8 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
             for point in tqdm(req):
                 if point['id'] is None:
                     abort(400)
-                points.append(point['name'], point['ssid'], point['address'], point['postCode'],point['hpUrl'],
-                              'POINT({} {})'.format(point['longitude'], point['latitude']), point['id'])
+                points.append([point['name'], point['ssid'], point['address'], point['postCode'],point['hpUrl'],
+                              'POINT({} {})'.format(point['longitude'], point['latitude']), point['id']])
 
             if sql_update_query(points)['sql_status'] == 'error':
                 abort(500)
