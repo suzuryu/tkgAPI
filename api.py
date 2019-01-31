@@ -190,7 +190,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         con = pyodbc.connect(r'DRIVER={SQLite3 ODBC Driver};SERVER=localhost;DATABASE='+ DB_NAME + ';Trusted_connection=yes')
         cur = con.cursor()
         cur.execute("SELECT load_extension('mod_spatialite.so');")
-        cur.execute("SELECT load_extension('libspatialite');")
+        cur.execute("SELECT load_extension('libspatialite.so');")
 
         try:
             if len(values) != 0:

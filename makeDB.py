@@ -10,8 +10,7 @@ def create_table():
         c = conn.cursor()
         # load spatiaLite
         c.execute("SELECT load_extension('mod_spatialite.so');")
-        expr = "SELECT load_extension('libspatialite');"
-        c.execute(expr)
+        c.execute("SELECT load_extension('libspatialite.so');")
 
 
         print("load spatiaLite")
