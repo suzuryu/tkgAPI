@@ -3,7 +3,7 @@ mkdir -p prefix
 sudo apt update -y
 sudo apt upgrade -y
 
-sudo apt-get install -y python3 python-dev python3-venv python3-dev libsqlite3-dev libsqlite3-mod-spatialite gpp gcc clang unixodbc-dev libsqliteodbcunixodbc-dev unixodbc-bin unixodbc libmecab-dev build-essential  libstdc++6 libssl-dev libffi-dev libxml2-dev libxslt1-dev zlib1g-dev python-pip nginx uwsgi
+sudo apt-get install -y python3 python-dev python3-venv python3-dev libsqlite3-dev libsqlite3-mod-spatialite gpp gcc clang unixodbc-dev libsqliteodbc unixodbc-dev unixodbc-bin unixodbc libmecab-dev build-essential  libstdc++6 libssl-dev libffi-dev libxml2-dev libxslt1-dev zlib1g-dev python-pip nginx uwsgi
 sudo apt install unixodbc-dev
 sudo apt install libproj-dev
 
