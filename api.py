@@ -152,8 +152,8 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
     def sql_add_query(point):
         sql_query = "INSERT INTO " + TABLE_NAME + "(name, ssid, address, postCode, hpUrl, geoPoint)  \
-                        VALUES(?, ?, ?, ?, ?, GeomFromText('POINT(? ?)'))"
-        values = (point['name'], point['ssid'], point['address'], point['postCode'], point['hpUrl'], point['longitude'], point['latitude'])
+                        VALUES(?, ?, ?, ?, ?, GeomFromText(?))"
+        values = (point['name'], point['ssid'], point['address'], point['postCode'], point['hpUrl'], 'POINT({} {})'.format(point['longitude'], point['latitude']))
 
         return execute_sql(sql_query, values)
 
