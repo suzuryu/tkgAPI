@@ -151,9 +151,9 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
                 abort(400)
 
     def sql_add_query(point):
-        sql_query = "INSERT INTO " + TABLE_NAME + """(name, ssid, address, postCode, hpUrl, geoPoint)  \
-                        VALUES(?, ?, ?, ?, ?, GeomFromText('POINT(? ?)'))"""
-        values = (point['name'], point['ssid'], point['address'], point['postCode'], point['hpUrl'], point['longitude'], point['latitude'])
+        sql_query = "INSERT INTO " + TABLE_NAME + "(name, ssid, address, postCode, hpUrl, geoPoint)  \
+                        VALUES(?, ?, ?, ?, ?, GeomFromText('POINT({} {})'))".format(point['longitude'], point['latitude'])
+        values = (point['name'], point['ssid'], point['address'], point['postCode'], point['hpUrl'])
 
         return execute_sql(sql_query, values)
 
@@ -179,7 +179,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
     def sql_update_query(point):
         sql_query = "UPDATE " + TABLE_NAME \
-                    + " SET name = ?, ssid = ?, address = ?, postCode = ?, hpUrl = ?, geoPoint = GeomFormText('POINT(? ?)')" + " WHERE id == ?"
+                    + " SET name = ?, ssid = ?, address = ?, postCode = ?, hpUrl = ?, geoPoint = GeomFromText('POINT(? ?)')" + " WHERE id == ?"
         values = (point['name'], point['ssid'], point['address'], point['postCode'],  \
                         point['hpUrl'], point['longitude'], point['latitude'], point['id'])
 
