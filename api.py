@@ -136,9 +136,6 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
             if name_keyword is not None:
                 if not name_keyword != "":
                     abort(400)
-                print(name_keyword)
-                print(urllib.parse.unquote(name_keyword))
-                print(urllib.parse.quote(name_keyword))
                 response = {
                     'datas': sql_get_by_name_query(name_keyword),
                     'status_code': 200,
@@ -207,9 +204,10 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         con = pyodbc.connect(r'DRIVER={SQLite3 ODBC Driver};SERVER=localhost;DATABASE='+ DB_NAME + ';Trusted_connection=yes')
         cur = con.cursor()
         cur.execute("SELECT load_extension('mod_spatialite.so');")
-
+        print(sql_query)
         try:
             if len(values) != 0:
+
                 cur.executemany(sql_query,values)
                 con.commit()
                 con.close()
