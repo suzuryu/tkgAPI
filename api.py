@@ -175,7 +175,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
                     + " WHERE MBRIntersects(GeomFromText('LineString(? ?, ? ?)'), geo)"
         params = [longitude - distance, latitude - distance, longitude + distance, latitude + distance]
-        return execute_sql(sql_query, params, true)
+        return execute_sql(sql_query, params, True)
 
     def sql_get_by_name_query(name):
         # sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
@@ -185,14 +185,14 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
         params = [name]
 
-        return execute_sql(sql_query, params, true)
+        return execute_sql(sql_query, params, True)
 
     def sql_get_by_id_query(id):
         sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
                         + " WHERE id == ?"
         params = [id]
 
-        return execute_sql(sql_query, params, true)
+        return execute_sql(sql_query, params, True)
 
     def sql_update_query(points):
         sql_query = "UPDATE " + TABLE_NAME \
@@ -202,7 +202,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         return execute_sql(sql_query, values)
 
 
-    def execute_sql(sql_query, params=(), is_get=false):
+    def execute_sql(sql_query, params=(), is_get=False):
         con = pyodbc.connect(r'DRIVER={SQLite3 ODBC Driver};SERVER=localhost;DATABASE='+ DB_NAME + ';Trusted_connection=yes')
         cur = con.cursor()
         cur.execute("SELECT load_extension('mod_spatialite.so');")
