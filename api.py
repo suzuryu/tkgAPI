@@ -126,7 +126,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
             distance = request.args.get('distance')
 
             if name_keyword is not None:
-                if not name_keyword == "":
+                if not name_keyword != "":
                     abort(400)
                 response = {
                     'datas': sql_get_by_name_query(name_keyword),
@@ -135,7 +135,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
                 }
                 return make_response(jsonify(response)), 200
             elif id is not None:
-                if not id >= 0:
+                if not id != "":
                     abort(400)
                 response = {
                     'datas': sql_get_by_id_query(id),
@@ -144,7 +144,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
                 }
                 return make_response(jsonify(response)), 200
             elif latitude is not None and longitude is not None and distance is not None:
-                if not (type(latitude) == float  and type(longitude) == float and type(discance) == float):
+                if not (latitude != "" and longitude != "" and distance != ""):
                     abort(400)
                 response = {
                     'datas': sql_get_by_distance_query(latitude, longitude, distance),
