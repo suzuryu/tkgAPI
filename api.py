@@ -4,11 +4,14 @@ from flask import current_app, Flask, redirect, abort, jsonify, make_response, r
 import pandas.io.sql as pdsql
 import sqlite3, pyodbc, json
 from config.run_config import APP_DEBUG, APP_TESTING
+from tqdm import tqdm
 
 
 TABLE_NAME = 'wifi'
 DB_NAME = 'wifiInformations.db'
 
+def logp(p):
+    print(p)
 
 def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
     """
@@ -80,7 +83,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
     def add_points():
         if request.method == 'POST':
             req = request.get_json()["datas"]
-            for r in req:
+            for r in tqdm(req):
                 if sql_add_query(r)['sql_status'] == 'error':
                     abort(500)
 
@@ -97,7 +100,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
     def update_points():
         if request.method == 'POST':
             req = request.get_json()["datas"]
-            for r in req:
+            for r in tqdm(req):
                 if r['id'] is None:
                     abort(400)
                 if sql_update_query(r)['sql_status'] == 'error':

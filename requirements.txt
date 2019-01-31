@@ -5,3 +5,4 @@ Flask-API==1.1b2
 Werkzeug==0.14.1
 pyodbc==1.1.1
 uwsgi
+tqdm
