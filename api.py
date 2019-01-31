@@ -78,43 +78,38 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 #main api
     @app.route('/api/wifi/addPoints', methods=['POST'])
     def add_points():
-        try:
-            if request.method == 'POST':
-                req = request.get_json()
-                for r in req:
-                    if sql_add_query(r)['sql_status'] == 'error':
-                        abort(500)
+        if request.method == 'POST':
+            req = request.get_json()
+            for r in req:
+                if sql_add_query(r)['sql_status'] == 'error':
+                    abort(500)
 
-                response = {
-                    'status_code': 200,
-                    'status_msg': 'success',
-                }
+            response = {
+                'status_code': 200,
+                'status_msg': 'success',
+            }
 
-                return make_response(jsonify(response)), 200
-        except:
-            abort(500)
+            return make_response(jsonify(response)), 200
 
 
 
     @app.route('/api/wifi/updatePoints', methods=['POST'])
     def update_points():
-        try:
-            if request.method == 'POST':
-                req = request.get_json()
-                for r in req:
-                    if r['id'] is None:
-                        abort(400)
-                    if sql_update_query(r)['sql_status'] == 'error':
-                        abort(500)
+        if request.method == 'POST':
+            req = request.get_json()
+            for r in req:
+                if r['id'] is None:
+                    abort(400)
+                if sql_update_query(r)['sql_status'] == 'error':
+                    abort(500)
 
-                response = {
-                    'status_code': 200,
-                    'status_msg': 'success',
-                }
+            response = {
+                'status_code': 200,
+                'status_msg': 'success',
+            }
 
-                return make_response(jsonify(response)), 200
-        except:
-            abort(500)
+            return make_response(jsonify(response)), 200
+
 
     @app.route('/api/wifi/getPoints', methods=['GET'])
     def get_points():
