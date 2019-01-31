@@ -127,7 +127,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
             if name_keyword is not None:
                 response = {
-                    'datas': sql_get_by_name_query(name),
+                    'datas': sql_get_by_name_query(name_keyword),
                     'status_code': 200,
                     'status_msg': 'success',
                 }
