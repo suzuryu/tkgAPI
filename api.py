@@ -83,11 +83,11 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
     def add_points():
         if request.method == 'POST':
             req = request.get_json()["datas"]
-            logp(len(req))
+            logp("Start add points for {} count".format(len(req)))
             for r in tqdm(req):
                 if sql_add_query(r)['sql_status'] == 'error':
                     abort(500)
-
+            logp("Finish add points")
             response = {
                 'status_code': 200,
                 'status_msg': 'success',
@@ -101,12 +101,13 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
     def update_points():
         if request.method == 'POST':
             req = request.get_json()["datas"]
+            logp("Start update points for {} count".format(len(req)))
             for r in tqdm(req):
                 if r['id'] is None:
                     abort(400)
                 if sql_update_query(r)['sql_status'] == 'error':
                     abort(500)
-
+            logp("Finish update points")
             response = {
                 'status_code': 200,
                 'status_msg': 'success',
@@ -156,8 +157,8 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
     def sql_add_query(point):
         sql_query = "INSERT INTO " + TABLE_NAME + "(name, ssid, address, postCode, hpUrl, geoPoint)  \
-                        VALUES(?, ?, ?, ?, ?, GeomFromText('POINT({} {})'))".format(point['longitude'], point['latitude'])
-        values = (point['name'], point['ssid'], point['address'], point['postCode'], point['hpUrl'])
+                        VALUES(?, ?, ?, ?, ?, GeomFromText('POINT('? ?')'))"
+        values = (point['name'], point['ssid'], point['address'], point['postCode'], point['hpUrl'], point['longitude'], point['latitude'])
 
         return execute_sql(sql_query, values)
 
