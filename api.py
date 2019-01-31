@@ -2,7 +2,7 @@
 
 from flask import current_app, Flask, redirect, abort, jsonify, make_response, request
 import pandas.io.sql as pdsql
-import sqlite3, pyodbc, json
+import sqlite3, pyodbc, json, urllib
 from config.run_config import APP_DEBUG, APP_TESTING
 from tqdm import tqdm
 
