@@ -180,7 +180,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
     def sql_get_by_name_query(name):
         sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
-                    + " WHERE CONCAT(name, address) LIKE '{0}%'".format(name)
+                    + " WHERE (name LIKE '{0}%' OR address LIKE '{0}%')".format(name, name)
 
         return execute_sql(sql_query)
 
