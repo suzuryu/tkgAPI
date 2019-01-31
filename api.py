@@ -84,6 +84,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         if request.method == 'POST':
             req = request.get_json()["datas"]
             logp("Start add points for {} count".format(len(req)))
+            points = []
             for point in tqdm(req):
                 points.append(point['name'], point['ssid'], point['address'], point['postCode'],point['hpUrl'],
                               'POINT({} {})'.format(point['longitude'], point['latitude']))
@@ -105,6 +106,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         if request.method == 'POST':
             req = request.get_json()["datas"]
             logp("Start update points for {} count".format(len(req)))
+            points = []
             for point in tqdm(req):
                 if point['id'] is None:
                     abort(400)
