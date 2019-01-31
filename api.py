@@ -179,8 +179,10 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         return execute_sql(sql_query)
 
     def sql_get_by_name_query(name):
+        # sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
+        #             + " WHERE (name LIKE '{0}%' OR address LIKE '{0}%')".format(name, name)
         sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
-                    + " WHERE (name LIKE '{0}%' OR address LIKE '{0}%')".format(name, name)
+                    + " WHERE address LIKE '%{0}%'".format(name)
 
         return execute_sql(sql_query)
 
