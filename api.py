@@ -181,9 +181,9 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         # sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
         #             + " WHERE (name LIKE '{0}%' OR address LIKE '{0}%')".format(name, name)
         sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
-                    + " WHERE address LIKE '%?%'"
+                    + " WHERE address LIKE ?"
 
-        params = [name]
+        params = ['%'+name+'%']
 
         return execute_sql(sql_query, params, True)
 
