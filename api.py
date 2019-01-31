@@ -166,13 +166,13 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         return execute_sql(sql_query)
 
     def sql_get_by_name_query(name):
-        sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, X(geoPoint), Y(geoPoint) FROM " + TABLE_NAME \
+        sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, geoPoint FROM " + TABLE_NAME \
                     + " WHERE name LIKE '{0}%'".format(name)
 
         return execute_sql(sql_query)
 
     def sql_get_by_id_query(id):
-        sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, X(geoPoint), Y(geoPoint) FROM " + TABLE_NAME \
+        sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, geoPoint FROM " + TABLE_NAME \
                         + " WHERE id == {0}".format(id)
 
         return execute_sql(sql_query)
