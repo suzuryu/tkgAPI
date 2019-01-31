@@ -79,7 +79,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
     @app.route('/api/wifi/addPoints', methods=['POST'])
     def add_points():
         if request.method == 'POST':
-            req = request.get_json()
+            req = request.get_json()["datas"]
             for r in req:
                 if sql_add_query(r)['sql_status'] == 'error':
                     abort(500)
@@ -96,7 +96,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
     @app.route('/api/wifi/updatePoints', methods=['POST'])
     def update_points():
         if request.method == 'POST':
-            req = request.get_json()
+            req = request.get_json()["datas"]
             for r in req:
                 if r['id'] is None:
                     abort(400)
