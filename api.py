@@ -83,7 +83,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
     def add_points():
         if request.method == 'POST':
             req = request.get_json()["datas"]
-            logp(len(reg))
+            logp(len(req))
             for r in tqdm(req):
                 if sql_add_query(r)['sql_status'] == 'error':
                     abort(500)
