@@ -173,24 +173,26 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
     def sql_get_by_distance_query(latitude, longitude, distance):
         sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
-                    + " WHERE MBRIntersects(GeomFromText('LineString({x0} {y0}, {x1} {y2})'), geo)".format( \
-                        longitude - distance, latitude - distance, longitude + distance, latitude + distance)
-
-        return execute_sql(sql_query)
+                    + " WHERE MBRIntersects(GeomFromText('LineString(? ?, ? ?)'), geo)"
+        params = [longitude - distance, latitude - distance, longitude + distance, latitude + distance]
+        return execute_sql(sql_query, params, true)
 
     def sql_get_by_name_query(name):
         # sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
         #             + " WHERE (name LIKE '{0}%' OR address LIKE '{0}%')".format(name, name)
         sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
-                    + " WHERE address LIKE '%{0}%'".format(name)
+                    + " WHERE address LIKE '%?%'"
 
-        return execute_sql(sql_query)
+        params = [name]
+
+        return execute_sql(sql_query, params, true)
 
     def sql_get_by_id_query(id):
         sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
-                        + " WHERE id == {0}".format(id)
+                        + " WHERE id == ?"
+        params = [id]
 
-        return execute_sql(sql_query)
+        return execute_sql(sql_query, params, true)
 
     def sql_update_query(points):
         sql_query = "UPDATE " + TABLE_NAME \
@@ -200,22 +202,22 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         return execute_sql(sql_query, values)
 
 
-    def execute_sql(sql_query, values=()):
+    def execute_sql(sql_query, params=(), is_get=false):
         con = pyodbc.connect(r'DRIVER={SQLite3 ODBC Driver};SERVER=localhost;DATABASE='+ DB_NAME + ';Trusted_connection=yes')
         cur = con.cursor()
         cur.execute("SELECT load_extension('mod_spatialite.so');")
         print(sql_query)
         try:
-            if len(values) != 0:
-
-                cur.executemany(sql_query,values)
+            if is_get:
+                data = pdsql.read_sql(sql_query, con, params=params).to_dict('records')
+                con.close()
+                return data
+            else:
+                cur.executemany(sql_query, params)
                 con.commit()
                 con.close()
                 return {'sql_status': 'ok'}
-            else:
-                data = pdsql.read_sql(sql_query, con).to_dict('records')
-                con.close()
-                return data
+
         except sqlite3.Error as e:
             return {'sql_status': 'error'}
 
