@@ -84,9 +84,12 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         if request.method == 'POST':
             req = request.get_json()["datas"]
             logp("Start add points for {} count".format(len(req)))
-            for r in tqdm(req):
-                if sql_add_query(r)['sql_status'] == 'error':
-                    abort(500)
+            for point in tqdm(req):
+                points.append(point['name'], point['ssid'], point['address'], point['postCode'],point['hpUrl'],
+                              'POINT({} {})'.format(point['longitude'], point['latitude']))
+            if sql_add_query(points)['sql_status'] == 'error':
+                abort(500)
+
             logp("Finish add points")
             response = {
                 'status_code': 200,
@@ -102,11 +105,14 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         if request.method == 'POST':
             req = request.get_json()["datas"]
             logp("Start update points for {} count".format(len(req)))
-            for r in tqdm(req):
-                if r['id'] is None:
+            for point in tqdm(req):
+                if point['id'] is None:
                     abort(400)
-                if sql_update_query(r)['sql_status'] == 'error':
-                    abort(500)
+                points.append(point['name'], point['ssid'], point['address'], point['postCode'],point['hpUrl'],
+                              'POINT({} {})'.format(point['longitude'], point['latitude']), point['id'])
+
+            if sql_update_query(points)['sql_status'] == 'error':
+                abort(500)
             logp("Finish update points")
             response = {
                 'status_code': 200,
@@ -155,10 +161,10 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
             else:
                 abort(400)
 
-    def sql_add_query(point):
+    def sql_add_query(points):
         sql_query = "INSERT INTO " + TABLE_NAME + "(name, ssid, address, postCode, hpUrl, geoPoint)  \
                         VALUES(?, ?, ?, ?, ?, GeomFromText(?))"
-        values = (point['name'], point['ssid'], point['address'], point['postCode'], point['hpUrl'],'POINT({} {})'.format(point['longitude'], point['latitude']))
+        values = points
 
         return execute_sql(sql_query, values)
 
@@ -182,11 +188,10 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
         return execute_sql(sql_query)
 
-    def sql_update_query(point):
+    def sql_update_query(points):
         sql_query = "UPDATE " + TABLE_NAME \
-                    + " SET name = ?, ssid = ?, address = ?, postCode = ?, hpUrl = ?, geoPoint = GeomFromText('POINT(? ?)')" + " WHERE id == ?"
-        values = (point['name'], point['ssid'], point['address'], point['postCode'],  \
-                        point['hpUrl'], point['longitude'], point['latitude'], point['id'])
+                    + " SET name = ?, ssid = ?, address = ?, postCode = ?, hpUrl = ?, geoPoint = GeomFromText(?)" + " WHERE id == ?"
+        values = points
 
         return execute_sql(sql_query, values)
 
@@ -198,7 +203,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
         try:
             if len(values) != 0:
-                cur.execute(sql_query,values)
+                cur.executemany(sql_query,values)
                 con.commit()
                 con.close()
                 return {'sql_status': 'ok'}
