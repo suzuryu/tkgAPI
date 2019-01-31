@@ -137,7 +137,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
                 if not name_keyword != "":
                     abort(400)
                 response = {
-                    'datas': sql_get_by_name_query(name_keyword),
+                    'datas': sql_get_by_name_query(urllib.parse.unquote(name_keyword)),
                     'status_code': 200,
                     'status_msg': 'success',
                 }
