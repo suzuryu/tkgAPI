@@ -85,17 +85,19 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
             req = request.get_json()["datas"]
             logp("Start add points for {} count".format(len(req)))
             points = []
+            sql_query = "SELECT" + " name, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME
+            sql_result = execute_sql(sql_query, is_get=True)
+            if sql_result is dict and sql_result['sql_status'] == 'error':
+                abort(500)
             for point in tqdm(req):
-                if is_samedata_existence(name, point['longitude'], point['latitude']):
-                    logp("name {}: geoPint({}, {}) is already existence. pass and continue ...".format(name, point['longitude'], point['latitude']))
+                samedata = [d for d in sql_result if d['name'] == point['name'] and d['X(geoPoint)'] == point['longitude'] and d['Y(geoPoint)'] == point['latitude']]
+                if len(samedata) != 0:
                     continue
                 points.append([point['name'], point['ssid'], point['address'], point['postCode'],point['hpUrl'],
                               'POINT({} {})'.format(point['longitude'], point['latitude'])])
             if sql_add_query(points)['sql_status'] == 'error':
                 abort(500)
-
-            logp("add {} data out of {} data".format(len(points), len(req)))
-
+            logp("add {} data".format(len(points))
             logp("Finish add points")
             response = {
                 'status_code': 200,
@@ -205,18 +207,6 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         values = points
 
         return execute_sql(sql_query, values)
-
-    def is_samedata_existence(name, longitude, latitude):
-        sql_query = "SELECT" + " * FROM " + TABLE_NAME \
-                        + "WHERE (name = ? AND X(geoPoint) = ?  AND Y(geoPoint)) = ?"
-
-        values = [name, longitude, latitude]
-
-        result = execute_sql(sql_query, values, True)
-        if result['sql_status'] == 'error':
-            abort(500)
-
-        return True if len(result) > 0 else False
 
     def execute_sql(sql_query, params=(), is_get=False):
         con = pyodbc.connect(r'DRIVER={SQLite3 ODBC Driver};SERVER=localhost;DATABASE='+ DB_NAME + ';Trusted_connection=yes')
