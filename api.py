@@ -97,7 +97,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
                               'POINT({} {})'.format(point['longitude'], point['latitude'])])
             if sql_add_query(points)['sql_status'] == 'error':
                 abort(500)
-            logp("add {} data".format(len(points))
+            logp("add {} data".format(len(points)))
             logp("Finish add points")
             response = {
                 'status_code': 200,
