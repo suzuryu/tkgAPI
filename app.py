@@ -8,4 +8,4 @@ app = create_app()
 
 if __name__ == '__main__':
     create_table()
-    app.run(debug=API_DEBUG, host=API_HOST, port=API_PORT, processes=10)
+    app.run(debug=API_DEBUG, host=API_HOST, port=API_PORT, processes=1)
