@@ -10,6 +10,10 @@ from tqdm import tqdm
 TABLE_NAME = 'wifi'
 DB_NAME = 'wifiInformations.db'
 
+con = pyodbc.connect(r'DRIVER={SQLite3 ODBC Driver};SERVER=localhost;DATABASE='+ DB_NAME + ';Trusted_connection=yes')
+cur = con.cursor()
+cur.execute("SELECT load_extension('mod_spatialite.so');")
+
 def logp(p):
     print(p)
 
@@ -209,19 +213,17 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         return execute_sql(sql_query, values)
 
     def execute_sql(sql_query, params=(), is_get=False):
-        con = pyodbc.connect(r'DRIVER={SQLite3 ODBC Driver};SERVER=localhost;DATABASE='+ DB_NAME + ';Trusted_connection=yes')
-        cur = con.cursor()
-        cur.execute("SELECT load_extension('mod_spatialite.so');")
+        
+        
+        
         print(sql_query)
         try:
             if is_get:
                 data = pdsql.read_sql(sql_query, con, params=params).to_dict('records')
-                con.close()
                 return data
             else:
                 cur.executemany(sql_query, params)
                 con.commit()
-                con.close()
                 return {'sql_status': 'ok'}
 
         except sqlite3.Error as e:
