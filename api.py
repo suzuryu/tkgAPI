@@ -225,6 +225,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
                 return {'sql_status': 'ok'}
 
         except sqlite3.Error as e:
+            abort(400)
             return {'sql_status': 'error'}
 
     return app
