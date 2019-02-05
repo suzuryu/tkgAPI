@@ -172,7 +172,12 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
                 }
                 return make_response(jsonify(response)), 200
             else:
-                abort(400)
+                response = {
+                    'datas': sql_get_all_query(),
+                    'status_code': 200,
+                    'status_msg': 'success',
+                }
+                return make_response(jsonify(response)), 200
 
     def sql_add_query(points):
         sql_query = "INSERT INTO " + TABLE_NAME + "(name, ssid, address, postCode, hpUrl, geoPoint)  \
@@ -205,6 +210,11 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
         return execute_sql(sql_query, params, True)
 
+    def sql_get_all_query():
+        sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME
+  
+        return execute_sql(sql_query, True)
+
     def sql_update_query(points):
         sql_query = "UPDATE " + TABLE_NAME \
                     + " SET name = ?, ssid = ?, address = ?, postCode = ?, hpUrl = ?, geoPoint = GeomFromText(?)" + " WHERE id == ?"
@@ -213,9 +223,6 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         return execute_sql(sql_query, values)
 
     def execute_sql(sql_query, params=(), is_get=False):
-        
-        
-        
         print(sql_query)
         try:
             if is_get:
