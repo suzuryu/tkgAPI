@@ -15,7 +15,7 @@ def create_table():
         # init spatiaLite
         c.execute('''SELECT InitSpatialMetaData();''')
         print("init")
-        create_table = '''CREATE TABLE IF NOT EXISTS wifi (id INTEGER PRIMARY KEY AUTOINCREMENT, name CHAR(100), ssid CHAR(50) NOT NULL, address CHAR(100), postCode CHAR(10), hpUrl CHAR(100), geoPoint GEOMETORY NOT NULL) DEFAULT CHARSET=utf8;'''
+        create_table = '''CREATE TABLE IF NOT EXISTS wifi (id INTEGER PRIMARY KEY AUTOINCREMENT, name CHAR(100), ssid CHAR(50) NOT NULL, address CHAR(100), postCode CHAR(10), hpUrl CHAR(100), geoPoint GEOMETORY NOT NULL) CHARSET=utf8;'''
 
         c.execute(create_table)
         print("create table")
