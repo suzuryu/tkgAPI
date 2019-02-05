@@ -140,9 +140,9 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         if request.method == 'GET':
             name_keyword = request.args.get('name')
             id = request.args.get('id')
-            latitude = float(request.args.get('latitude'))
-            longitude = float(request.args.get('longitude'))
-            distance = float(request.args.get('distance'))
+            latitude = request.args.get('latitude')
+            longitude = request.args.get('longitude')
+            distance = request.args.get('distance')
 
             if name_keyword is not None:
                 if not name_keyword != "":
@@ -166,7 +166,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
                 if not (latitude != "" and longitude != "" and distance != ""):
                     abort(400)
                 response = {
-                    'datas': sql_get_by_distance_query(latitude, longitude, distance),
+                    'datas': sql_get_by_distance_query(float(latitude), float(longitude), float(distance)),
                     'status_code': 200,
                     'status_msg': 'success',
                 }
