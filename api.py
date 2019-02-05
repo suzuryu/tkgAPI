@@ -213,7 +213,8 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
     def sql_get_all_query():
         sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME
   
-        return execute_sql(sql_query, True)
+        params = []
+        return execute_sql(sql_query, oarams, True)
 
     def sql_update_query(points):
         sql_query = "UPDATE " + TABLE_NAME \
