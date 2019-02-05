@@ -138,8 +138,8 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
     @app.route('/api/wifi/getPoints', methods=['GET'])
     def get_points():
         if request.method == 'GET':
-            name_keyword = str(request.args.get('name'))
-            id = int(request.args.get('id'))
+            name_keyword = request.args.get('name')
+            id = request.args.get('id')
             latitude = float(request.args.get('latitude'))
             longitude = float(request.args.get('longitude'))
             distance = float(request.args.get('distance'))
