@@ -188,8 +188,8 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
 
 
     def sql_get_by_distance_query(latitude, longitude, distance):
-        longitude_distance = 0.01097 * distance
-        latitude_distance = 0.00901 * distance
+        longitude_distance = 0.01097 * distance / 1000
+        latitude_distance = 0.00901 * distance / 1000
         sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
                     + " WHERE MBRIntersects(GeomFromText(?), geoPoint)"
         params = ['LineString({} {}, {} {})'.format(longitude - longitude_distance, latitude - latitude_distance, longitude + longitude_distance, latitude + latitude_distance)]
