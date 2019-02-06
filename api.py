@@ -143,6 +143,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
             latitude = request.args.get('latitude')
             longitude = request.args.get('longitude')
             distance = request.args.get('distance')
+            count = request.args.get('count')
 
             if name_keyword is not None:
                 if not name_keyword != "":
@@ -166,7 +167,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
                 if not (latitude != "" and longitude != "" and distance != ""):
                     abort(400)
                 response = {
-                    'datas': sql_get_by_distance_query(float(latitude), float(longitude), float(distance)),
+                    'datas': sql_get_by_distance_query(float(latitude), float(longitude), float(distance), count),
                     'status_code': 200,
                     'status_msg': 'success',
                 }
@@ -187,7 +188,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         return execute_sql(sql_query, values)
 
 
-    def sql_get_by_distance_query(latitude, longitude, distance):
+    def sql_get_by_distance_query(latitude, longitude, distance, count):
         longitude_distance = 0.01097 * distance / 1000
         latitude_distance = 0.00901 * distance / 1000
         sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
@@ -195,8 +196,12 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         params = ['LineString({} {}, {} {})'.format(longitude - longitude_distance, latitude - latitude_distance, longitude + longitude_distance, latitude + latitude_distance)]
 
         points = execute_sql(sql_query, params, True)
-        return sorted(points, key=lambda x: (x["Y(geoPoint)"] - latitude)**2 + (x["X(geoPoint)"] - longitude)**2)
+        sorted_points = sorted(points, key=lambda x: (x["Y(geoPoint)"] - latitude) ** 2 + (x["X(geoPoint)"] - longitude) ** 2)
 
+        if count is None:
+            return sorted_points
+        else:
+            return sorted_points[:int(count)]
 
     def sql_get_by_name_query(name):
         # sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
