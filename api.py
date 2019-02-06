@@ -193,7 +193,10 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
                     + " WHERE MBRIntersects(GeomFromText(?), geoPoint)"
         params = ['LineString({} {}, {} {})'.format(longitude - longitude_distance, latitude - latitude_distance, longitude + longitude_distance, latitude + latitude_distance)]
-        return execute_sql(sql_query, params, True)
+
+        points = execute_sql(sql_query, params, True)
+        return sorted(points, key=lambda x: (x["Y(geoPoint)"] - latitude)**2 + (x["X(geoPoint)"] - longitude)**2)
+
 
     def sql_get_by_name_query(name):
         # sql_query = "SELECT" + " id, name, ssid, address, postCode, hpUrl, Y(geoPoint), X(geoPoint) FROM " + TABLE_NAME \
