@@ -198,7 +198,7 @@ def create_app(debug=APP_DEBUG, testing=APP_TESTING, config_overrides=None):
         points = execute_sql(sql_query, params, True)
         sorted_points = sorted(points, key=lambda x: (x["Y(geoPoint)"] - latitude) ** 2 + (x["X(geoPoint)"] - longitude) ** 2)
 
-        if count is None:
+        if count is None or (type(count) == str and not count.isdigit()):
             return sorted_points
         else:
             return sorted_points[:int(count)]
